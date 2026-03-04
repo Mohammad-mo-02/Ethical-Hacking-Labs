@@ -3,68 +3,31 @@
 
 ---
 
-## Executive Technical Overview
+## Executive Statement
 
-This repository presents a structured Ethical Hacking and Penetration Testing portfolio completed as part of a postgraduate cybersecurity programme. All practical assessments were conducted within legally authorised sandbox environments provided by TryHackMe, ensuring full compliance with ethical and legal standards.
+This repository documents a structured series of offensive security assessments conducted within legally authorised sandbox environments, primarily through TryHackMe laboratories and controlled virtualised infrastructure.
 
-The objective of this project was not merely to execute isolated attacks, but to demonstrate a complete offensive security workflow aligned with recognised industry methodologies, including:
+The objective of this body of work was not merely to execute exploitation techniques, but to demonstrate the disciplined application of formal penetration testing methodology. Each engagement was approached as a simulated real-world security assessment, integrating technical execution with vulnerability classification, impact modelling, and defensive remediation strategy.
 
-- NIST SP 800-115 – Technical Guide to Information Security Testing and Assessment  
-- OWASP Top 10 (2021) – Web Application Risk Classification  
-- MITRE CWE Framework – Vulnerability Taxonomy  
-
-Each practical task followed a structured penetration testing lifecycle:
-
-Reconnaissance → Enumeration → Exploitation Attempt → Vulnerability Classification → Impact Analysis → Mitigation Mapping
-
-No unauthorised infrastructure was targeted. All exploitation was confined to controlled laboratory environments.
-
-This portfolio demonstrates applied offensive capability, structured methodology, defensive awareness, and professional documentation standards.
+All activities were conducted in isolated educational environments. No unauthorised systems were targeted.
 
 ---
 
-# Offensive Security Competencies Demonstrated
+## Testing Philosophy & Threat Model
 
-- Structured reconnaissance and service enumeration  
-- Manual and automated SQL injection testing  
-- Password attack methodology using John the Ripper  
-- Payload generation using MSFvenom  
-- Reverse shell handler configuration via Metasploit Framework  
-- Network packet capture and credential extraction using Wireshark  
-- Service fingerprinting and vulnerability scanning using Nmap  
-- Vulnerability classification via CWE and OWASP  
-- CIA triad impact modelling  
-- Structured mitigation and defensive control mapping  
-- Ethical boundary enforcement and responsible disclosure awareness  
+All practical exercises were conducted using a structured black-box testing perspective unless explicitly stated otherwise. This simulated an external threat actor with no prior credentials or internal knowledge of the target environment.
 
----
+The methodology applied throughout aligns with principles from:
 
-# Testing Environment Architecture
+- NIST SP 800-115 (Technical Guide to Information Security Testing)
+- OWASP Top 10 (2021)
+- MITRE CWE Vulnerability Classification Framework
 
-All testing activities were conducted within cloud-based lab environments to ensure:
+Each task followed a consistent lifecycle:
 
-- Legal compliance  
-- Controlled exploitation boundaries  
-- Reproducibility  
-- Isolation from production infrastructure  
+Reconnaissance → Enumeration → Exploitation Attempt → Validation → Vulnerability Classification → Impact Assessment → Mitigation Strategy
 
-## Attacker Environment
-
-Kali Linux-based attack box with access to:
-
-- Nmap – service discovery and enumeration  
-- sqlmap – automated SQL injection testing  
-- Metasploit Framework – exploitation and handler configuration  
-- MSFvenom – payload generation  
-- Wireshark – packet capture and protocol inspection  
-- John the Ripper – password cracking simulation  
-
-## Target Environments
-
-- DVWA (Damn Vulnerable Web Application)  
-- Windows sandbox systems  
-- Simulated FTP/HTTP network services  
-- Public infrastructure reconnaissance simulation (Oracle case study)  
+This ensured technical activity remained analytically grounded and defensively contextualised.
 
 ---
 
@@ -72,200 +35,200 @@ Kali Linux-based attack box with access to:
 
 ## Objective
 
-To identify and exploit injection vulnerabilities within a controlled web application environment and assess their security impact.
+To assess input validation weaknesses within a controlled web application environment and evaluate the systemic risk posed by injection vulnerabilities.
 
-## Methodology
+## Methodological Approach
 
-1. Service enumeration using Nmap  
-2. Manual payload injection testing  
-3. Automated testing using sqlmap  
-4. Vulnerability classification (CWE-89)  
-5. Impact modelling (CIA triad)  
-6. Mitigation strategy design  
+Initial reconnaissance and service enumeration were conducted using Nmap to identify exposed web services and potential entry points. Manual payload testing was performed to validate injection behaviour before automation was introduced via sqlmap.
 
-## Key Findings
+This staged approach ensured understanding preceded automation, preventing tool dependency and reinforcing vulnerability comprehension.
 
-- Input fields accepted unsanitised user input  
-- Authentication bypass achieved using logical injection payloads  
-- Backend database interaction confirmed via sqlmap automation  
-- Vulnerability aligned with OWASP A03:2021 – Injection  
-- Classified as CWE-89  
+## Technical Findings
 
-## Security Impact
+The target application accepted unsanitised user input within authentication and query parameters. Logical injection payloads successfully bypassed authentication controls, demonstrating backend database interaction.
 
-If exploited in production, this vulnerability could result in:
+Automated enumeration confirmed database schema accessibility under certain conditions.
 
-- Data exfiltration  
-- Credential compromise  
-- Administrative privilege escalation  
-- Regulatory non-compliance  
+The vulnerability aligns with:
 
-## Mitigation Mapping
+- CWE-89 — SQL Injection
+- OWASP A03:2021 — Injection
 
-- Parameterised queries / prepared statements  
-- Input validation enforcement  
-- Least privilege database accounts  
-- Secure coding review processes  
+## Risk & Operational Impact
+
+In a production environment, this class of vulnerability can facilitate:
+
+- Credential harvesting  
+- Sensitive data exfiltration  
+- Privilege escalation  
+- Regulatory exposure (GDPR implications in EU contexts)  
+
+Injection flaws are particularly severe because they collapse trust boundaries between user input and database execution layers.
+
+## Defensive Remediation Strategy
+
+Mitigation requires systemic correction rather than surface filtering. Recommended controls include:
+
+- Parameterised queries and prepared statements  
+- Strict input validation and output encoding  
+- Principle of least privilege at the database layer  
+- Secure development lifecycle integration  
+
+This exercise reinforced how minor validation oversights can escalate into systemic compromise.
 
 ---
 
-# Domain II — Malware Payload Simulation & Reverse Shell Infrastructure
+# Domain II — Payload Generation & Remote Access Simulation
 
 ## Objective
 
-To simulate attacker payload creation and remote access establishment in order to understand early-stage compromise mechanics.
+To simulate the mechanics of initial compromise through payload generation and controlled reverse shell establishment, demonstrating how endpoint weaknesses can lead to remote command execution.
 
-## Payload Generation
+## Technical Execution
 
-Using MSFvenom:
+Using MSFvenom, a reverse TCP payload was generated with defined LHOST and LPORT parameters. A corresponding listener was configured via the Metasploit Framework multi/handler module.
 
-- windows/meterpreter/reverse_tcp payload  
-- Custom LHOST and LPORT configuration  
-- Executable binary generation  
+Upon simulated execution within the sandbox environment, a session was successfully established, enabling controlled command interaction.
 
-## Listener Configuration
+## Vulnerability Context
 
-Using Metasploit multi/handler:
+This scenario models weaknesses such as:
 
-- Payload matching  
-- Reverse TCP listener activation  
-- Session establishment simulation  
+- Unrestricted file upload (CWE-434)  
+- Inadequate execution controls  
+- Insufficient endpoint protection  
 
-## Vulnerability Classification
+The focus was not on bypassing enterprise-grade EDR, but on understanding compromise mechanics at a foundational level.
 
-- CWE-434 – Unrestricted Upload of File with Dangerous Type  
-- Improper execution control weaknesses  
+## Operational Impact
 
-## Security Impact
+In real-world scenarios, successful reverse shell establishment enables:
 
-Successful exploitation would allow:
+- Persistent access  
+- Privilege escalation  
+- Lateral movement  
+- Data staging for exfiltration  
 
-- Remote command execution  
-- File system manipulation  
-- Persistence installation  
-- Lateral movement capability  
+The exercise highlighted the asymmetry between simple execution flaws and large-scale organisational risk.
 
-## Defensive Controls
+## Defensive Countermeasures
+
+Effective mitigation requires layered controls:
 
 - Endpoint Detection & Response (EDR)  
 - Application whitelisting  
-- Antivirus with behavioural analysis  
-- Restricted execution policies  
+- Execution policy enforcement  
+- Network segmentation  
+- Behavioural anomaly detection  
+
+This reinforced the importance of defence-in-depth architecture.
 
 ---
 
-# Domain III — Network Traffic Interception & Protocol Weakness Analysis
+# Domain III — Network Traffic Analysis & Protocol Weaknesses
 
 ## Objective
 
-To demonstrate how plaintext protocol usage enables credential interception.
+To analyse plaintext protocol behaviour and assess the risk posed by insecure service configurations.
 
 ## Methodology
 
-- Packet capture using Wireshark  
-- FTP protocol filtering  
-- Credential extraction from captured traffic  
+Network traffic was captured and analysed using Wireshark. FTP authentication flows were inspected to determine whether credential material was transmitted securely.
 
-## Key Finding
+## Key Observation
 
-FTP authentication credentials transmitted in plaintext.
+Authentication credentials were transmitted in plaintext within FTP sessions, allowing extraction directly from packet capture.
 
-## Vulnerability Classification
+This vulnerability maps to:
 
-- CWE-319 – Cleartext Transmission of Sensitive Information  
-- OWASP A02:2021 – Cryptographic Failures  
+- CWE-319 — Cleartext Transmission of Sensitive Information  
+- OWASP A02:2021 — Cryptographic Failures  
 
-## Security Impact
+## Risk Implications
 
-- Credential theft  
-- Privilege escalation  
-- Lateral network movement  
-- Business continuity disruption  
+Plaintext protocol usage remains common in legacy infrastructure and poorly segmented networks. In environments lacking encrypted transport layers, attackers positioned within the network can harvest credentials passively without triggering authentication alerts.
 
-## Mitigation Strategy
+The risk multiplies in flat network architectures where credential reuse is common.
 
-- Replace FTP with SFTP/FTPS  
+## Remediation Strategy
+
+- Replace FTP with SFTP or FTPS  
 - Replace Telnet with SSH  
 - Enforce HTTPS across services  
-- Deploy VPN encryption  
-- Implement IDS monitoring  
+- Implement TLS configuration hardening  
+- Deploy intrusion detection monitoring  
+
+This exercise demonstrated how configuration weaknesses often pose equal or greater risk than software flaws.
 
 ---
 
-# Extended Offensive Modules (TryHackMe)
+# Extended Offensive Modules
 
-Beyond the core domains, this portfolio includes additional practical exposure through structured TryHackMe modules:
+Additional laboratory exercises conducted via structured TryHackMe modules included:
 
-- Host enumeration  
+- Service enumeration and fingerprinting  
 - Password cracking using John the Ripper  
-- Service fingerprinting  
-- Banner grabbing  
-- Exploit selection validation  
-- Failed exploitation handling and correction  
-- Reconnaissance automation  
-- Certificate transparency analysis  
+- Hash identification and attack strategy selection  
+- Exploit research validation  
+- Banner grabbing and version analysis  
+- Controlled brute-force simulations  
 
-These exercises reinforced structured methodology rather than tool-centric execution.
+These modules reinforced a critical principle: tools are secondary to methodology. Each exercise was treated as a miniature engagement rather than a checklist task.
 
 ---
 
-# Bug Bounty Reconnaissance Simulation
+# Passive Reconnaissance Case Study
 
-A passive reconnaissance case study was conducted targeting publicly available infrastructure associated with Oracle Corporation under responsible disclosure boundaries.
+A passive reconnaissance simulation was conducted against publicly available infrastructure belonging to Oracle Corporation. Only open-source intelligence techniques were used.
 
-## Tools Used
+Activities included:
 
-- WHOIS lookup  
-- crt.sh certificate transparency search  
-- SecurityHeaders analysis  
-- Shodan exposure enumeration  
-
-## Key Observations
-
-- Multiple subdomain exposures  
-- Missing HTTP security headers  
-- Public service fingerprinting  
-- Defensive infrastructure detection (Akamai edge protection)  
+- WHOIS analysis  
+- Certificate transparency search (crt.sh)  
+- Security header inspection  
+- Exposure enumeration via Shodan  
 
 No intrusive scanning or exploitation was performed.
 
-This demonstrates understanding of:
-
-- Attack surface mapping  
-- Passive reconnaissance strategy  
-- Responsible disclosure ethics  
-- Enterprise exposure assessment  
+This case study demonstrated understanding of attack surface mapping, responsible disclosure boundaries, and enterprise exposure profiling without crossing ethical lines.
 
 ---
 
-# Ethical & Legal Compliance
+# Ethical Compliance
 
-All testing adhered to:
+All assessments were conducted:
 
-- Controlled lab boundaries  
-- Educational licensing terms  
-- Responsible disclosure principles  
-- No real-world unauthorised exploitation  
+- Within authorised lab environments  
+- Under educational licensing agreements  
+- Without targeting live unauthorised systems  
 
-Activities were aligned with NIST SP 800-115 testing methodology and recognised ethical hacking standards.
+The objective throughout was skill development, not exploitation.
 
 ---
 
-# Strategic Value of This Portfolio
+# Strategic Competency Demonstrated
 
-This repository demonstrates:
+This portfolio reflects capability in:
 
-- Offensive capability grounded in structured methodology  
-- Technical tool fluency  
+- Structured penetration testing methodology  
+- Technical exploitation fundamentals  
 - Vulnerability classification literacy  
-- Defensive remediation awareness  
-- Ethical boundary discipline  
-- Professional documentation standards  
+- Impact modelling using CIA triad principles  
+- Defensive remediation mapping  
+- Ethical boundary adherence  
+- Analytical reporting discipline  
+
+The work bridges offensive execution with defensive awareness, reflecting an understanding that penetration testing is ultimately a risk identification and mitigation discipline.
 
 ---
 
-# Supporting Documentation
 
-The full academic report, technical evidence, packet captures, and structured appendices are included within this repository.
+---
+
+## Closing Reflection
+
+Security weaknesses rarely exist in isolation. They emerge from misaligned validation, configuration drift, and insufficient architectural layering. Through structured laboratory assessment, this portfolio explores how seemingly small technical flaws can escalate into systemic compromise.
+
+The emphasis throughout has been discipline, clarity, and defensible methodology.
 
 ---
